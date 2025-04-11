@@ -1,0 +1,36 @@
+{
+  "name": "form2xml",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "sass": "sass src/sass/main.scss public/css/styles.css",
+    "watch-sass": "sass --watch --quiet src/sass/main.scss public/css/styles.css",
+    "watch-server": "cross-env NODE_OPTIONS='--no-warnings' nodemon --exec ts-node src/app.ts --watch src --ext ts,json,pug,css",
+    "watch-sass-debug": "sass --watch src/sass/main.scss public/css/styles.css",
+    "watch-server-debug": "nodemon --inspect --exec ts-node src/app.ts --watch src --ext ts,json,pug,css",
+    "start-dev": "concurrently \"npm run watch-sass\" \"npm run watch-server\"",
+    "start": "cross-env NODE_OPTIONS='--no-warnings' ts-node src/app.ts",
+    "debug": "concurrently \"npm run watch-sass-debug\" \"npm run watch-server-debug\""
+  },
+  "dependencies": {
+    "bootstrap": "^5.3.3",
+    "express": "^4.19.2",
+    "multer": "^1.4.5-lts.1",
+    "pug": "^3.0.3"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/express-session": "^1.18.0",
+    "@types/multer": "^1.4.12",
+    "@types/node": "^22.5.2",
+    "concurrently": "^8.2.2",
+    "cross-env": "^7.0.3",
+    "nodemon": "^3.1.4",
+    "prettier": "^3.3.3",
+    "sass": "^1.77.8",
+    "source-map-support": "^0.5.21",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.5.4"
+  }
+}

@@ -1,0 +1,24 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='icon', href='/images/favicon.ico', type='image/x-icon')
+    link(rel='stylesheet', href='/css/styles.css')
+
+  body.body-bg
+    .container
+      .row
+        .col
+          .container.alert.alert-danger.mt-3#browserWarning(style="display:none;")
+            p.text-center Your browser is not supported. Please use Chrome or Edge version 86 or higher.
+          .container.pb-4.px-4#appContainer.bg-white.rounded-bottom.shadow-sm.d-flex.flex-column.align-items-start
+            a.text-center(href='/')
+              img.custom-logo-size(src='/images/logo.png', alt='logo')
+            block content
+
+    // Order must be kept this way in order to work
+    script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js")
+    script(type="module" src="/js/browserCheck.js")
+    script(type="module" src="/js/clientApi.js")
+    script(type="module" src="/js/serverApi.js")
+    script(type="module" src="/js/main.js")

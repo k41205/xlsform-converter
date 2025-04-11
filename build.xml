@@ -1,0 +1,72 @@
+<?xml version="1.0" ?>
+<!--
+Copyright 2024 Diona.
+All rights reserved.
+
+This software is the confidential and proprietary information of Diona
+("Confidential Information"). You shall not disclose such Confidential Information
+and shall use it only in accordance with the terms of the license agreement you
+entered into with Diona.
+ -->
+
+<!-- Build and deployment targets for Diona Solution.  -->
+<project name="XLSFormConverter" default="start" xmlns:if="ant:if" xmlns:unless="ant:unless">
+
+    <dirname property="XLSFormConverter.basedir" file="${ant.file.XLSFormConverter}"/>
+    <property name="dir.XLSFormConverter" location="${XLSFormConverter.basedir}"/>
+
+    <property name="npm.run.dir" value="${dir.XLSFormConverter}"/>
+    <import file="../build.xml"/>
+
+    <condition property="npm.executable" value="npm.cmd" else="npm">
+        <os family="windows"/>
+    </condition>
+
+    <target name="start" depends="-set.databases.configuration">
+        <exec executable="${npm.executable}" taskname="npm" dir="${npm.run.dir}" failonerror="true">
+            <env key="DIONA_MOBILITY_DATABASES_CONFIGURATION" value="${prp.combined.databases.configuration}"/>
+            <arg line="start"/>
+        </exec>
+    </target>
+
+    <target name="start-dev" depends="-set.databases.configuration">
+        <exec executable="${npm.executable}" taskname="npm" dir="${npm.run.dir}" failonerror="true">
+            <env key="DIONA_MOBILITY_DATABASES_CONFIGURATION" value="${prp.combined.databases.configuration}"/>
+            <arg line="run-script start-dev"/>
+        </exec>
+    </target>
+
+    <target name="debug" depends="-set.databases.configuration">
+        <exec executable="${npm.executable}" taskname="npm" dir="${npm.run.dir}" failonerror="true">
+            <env key="DIONA_MOBILITY_DATABASES_CONFIGURATION" value="${prp.combined.databases.configuration}"/>
+            <arg line="run-script debug"/>
+        </exec>
+    </target>
+
+    <target name="install">
+        <antcall target="-install.npm.modules">
+            <param name="dir.install" location="${npm.run.dir}"/>
+        </antcall>
+    </target>
+
+    <target name="stop" description="Stops the XLSFormConverter app">
+        <condition property="dm.port.number" value="${dm.port}" else="4000">
+            <isset property="dm.port"/>
+        </condition>
+
+        <property name="dm.name" value="DM${dm.port.number}"/>
+
+        <local name="dm.pid.exists"/>
+        <available file="${dir.XLSFormConverter}/${dm.name}.pid" property="dm.pid.exists"/>
+        <loadfile if:set="dm.pid.exists" property="dm.pid" srcFile="${dir.XLSFormConverter}/${dm.name}.pid">
+            <filterchain>
+                <striplinebreaks/>
+            </filterchain>
+        </loadfile>
+        <antcall if:set="dm.pid" target="-killByPID">
+            <param name="prp.process.id" value="${dm.pid}"/>
+        </antcall>
+        <delete if:set="dm.pid.exists" file="${dir.XLSFormConverter}/${dm.name}.pid"/>
+    </target>
+
+</project>

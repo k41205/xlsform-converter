@@ -1,0 +1,21 @@
+.hidden-important {
+  display: none !important;
+}
+
+.custom-button {
+  background-color: #2c7be5;
+  color: white;
+  -webkit-font-smoothing: antialiased;
+}
+
+.custom-spinner,
+.custom-spinner:hover {
+  background-color: #2c7be5;
+  color: white;
+  -webkit-font-smoothing: antialiased;
+  cursor: default;
+}
+
+.body-bg {
+  background-color: #edf2f9;
+}

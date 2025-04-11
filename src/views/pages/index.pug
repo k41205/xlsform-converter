@@ -1,0 +1,47 @@
+extends ../layouts/default.pug
+
+block content
+  button.custom-button.mt-3.btn.btn-primary#inputFileButton Select XLSForm
+  p.mt-3 XLSForm: 
+    span#fileNameDisplay No file selected
+
+  .mt-3
+    label
+      input(
+        type="checkbox", name="skipValidate", value="", id="skipValidate").me-2
+      | Skip validate
+
+  .mt-3
+    label.me-4
+      //- Local option checked by default
+      input(type="radio", name="downloadOption", value="local", checked, id="localOption").me-2
+      | File System
+    label
+      input(type="radio", name="downloadOption", value="db", id="dbOption").me-2
+      | Database
+
+  #localDownloadOptions(style="display:block")
+    button.custom-button.mt-3.btn.btn-primary#outputFileButton Select Output File Location
+    p.mt-3 Output File Location: 
+      span#fileNamePathDisplay No directory selected
+  
+  #dbDownloadOptions(style="display:none")
+    .mt-3
+      label Solution
+      select.form-select#appIdDropdown
+        option(value="default" selected disabled) Select Solution
+        //- The options for this dropdown are dynamically populated
+
+    .mt-3
+      label Form
+      select.form-select#formDropdown
+        option(value="default" selected disabled) Select Form
+        //- The options for this dropdown are dynamically populated
+
+  button.custom-button.mt-3.btn.btn-primary#convertToXmlButton(disabled) Convert to XML
+
+  button(style="display:none;")#spinner.custom-spinner.btn.btn-primary.mt-3
+    span(aria-hidden="true").spinner-border.spinner-border-sm.me-1
+    span(role="status") Loading...
+
+  #messageDisplay.mt-3
